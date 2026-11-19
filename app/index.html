@@ -3,21 +3,123 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Neon Coast Cover Studio — GTA-style poster maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">NC</span>
+    <div>
+      <h1>Neon Coast Cover Studio</h1>
+      <p>Your photo + a caption &rarr; a multi-panel sunset poster. 100% offline — photos never leave your machine.</p>
+    </div>
+  </div>
+  <ol class="steps">
+    <li><b>1</b> Add photos</li>
+    <li><b>2</b> Pick a layout &amp; grade</li>
+    <li><b>3</b> Crop each panel</li>
+    <li><b>4</b> Export PNG</li>
+  </ol>
+</header>
+
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <section class="controls" aria-label="Cover controls">
+    <div class="group">
+      <h2>Photos</h2>
+      <label class="file-label">Add your photos
+        <input id="photos" type="file" accept="image/*" multiple>
+      </label>
+      <div class="row">
+        <button id="sampleBoulevard" type="button">Try sample: Boulevard</button>
+        <button id="samplePier" type="button">Try sample: Pier</button>
+      </div>
+      <p class="hint" id="photoCount">No photos yet — add your own, or try a sample.</p>
+      <div class="thumbs" id="thumbs" aria-label="Loaded photos"></div>
+    </div>
+
+    <div class="group">
+      <h2>Layout — panels</h2>
+      <div class="btn-grid" id="layouts" role="group" aria-label="Layout"></div>
+      <p class="hint">Click a panel on the cover to select it, then crop it below.</p>
+      <div class="panel-bar" id="panelBar" aria-label="Select a panel"></div>
+    </div>
+
+    <div class="group">
+      <h2>Selected panel</h2>
+      <label>Photo in this panel
+        <select id="panelPhoto"></select>
+      </label>
+      <label>Zoom <span id="zoomVal">1.20&times;</span>
+        <input id="zoom" type="range" min="1" max="2.6" step="0.01" value="1.2">
+      </label>
+      <label>Position left / right
+        <input id="offsetX" type="range" min="-1" max="1" step="0.01" value="0">
+      </label>
+      <label>Position up / down
+        <input id="offsetY" type="range" min="-1" max="1" step="0.01" value="0">
+      </label>
+      <div class="row">
+        <button id="fillAll" type="button">Fill all panels with this photo</button>
+        <button id="shuffle" type="button">Shuffle panels</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Sunset grade</h2>
+      <div class="btn-grid" id="grades" role="group" aria-label="Colour grade"></div>
+    </div>
+
+    <div class="group">
+      <h2>Lettering</h2>
+      <label>Cover title
+        <input id="caption" type="text" maxlength="28" value="NEON COAST">
+      </label>
+      <label>Neon subtitle
+        <input id="subtitle" type="text" maxlength="40" value="sunset run">
+      </label>
+      <label>Badge ribbon
+        <input id="badge" type="text" maxlength="18" value="LAUNCH WEEK">
+      </label>
+      <label>Heat meter (stars)
+        <input id="stars" type="range" min="1" max="5" step="1" value="5">
+      </label>
+      <label class="check"><input id="grain" type="checkbox" checked> Film grain + vignette</label>
+      <label class="check"><input id="halftone" type="checkbox" checked> Halftone dots on title</label>
+    </div>
+
+    <div class="group">
+      <h2>Export PNG</h2>
+      <div class="sizes" role="group" aria-label="Export size">
+        <label><input type="radio" name="size" value="1080x1080" checked> 1080 &times; 1080 <span>Square</span></label>
+        <label><input type="radio" name="size" value="1080x1350"> 1080 &times; 1350 <span>Portrait</span></label>
+        <label><input type="radio" name="size" value="1920x1080"> 1920 &times; 1080 <span>Wide</span></label>
+      </div>
+      <div class="row">
+        <button id="export" type="button" class="primary">Export PNG</button>
+        <button id="exportAll" type="button">Export all 3 sizes</button>
+      </div>
+      <div class="row">
+        <button id="undo" type="button">Undo</button>
+        <button id="redo" type="button">Redo</button>
+        <button id="reset" type="button">Reset cover</button>
+      </div>
+      <p id="status" role="status">Ready — add a photo to begin.</p>
+    </div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <section class="stage" aria-label="Live cover preview">
+    <div class="canvas-wrap">
+      <canvas id="cover" width="1080" height="1080" aria-label="Live cover preview — click a panel to select it"></canvas>
+      <span class="size-tag" id="sizeTag">1080 &times; 1080</span>
+    </div>
+    <p class="stage-hint">Live preview — click any panel to select it, then use Zoom and Position. What you see is what the PNG looks like.</p>
+  </section>
 </main>
+
+<footer class="foot">
+  <p>Original art, lettering and layouts made for this studio. No game logos, artwork, characters or fonts are used. Photos stay on your device; nothing is uploaded.</p>
+</footer>
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>

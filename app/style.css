@@ -1,12 +1,95 @@
-html, body { margin: 0; height: 100%; background: #f2f0f4; color: #1d1b22; font: 15px/1.4 system-ui, sans-serif; }
-.app { display: flex; gap: 32px; align-items: center; justify-content: center; height: 100%; padding: 24px; box-sizing: border-box; }
-.controls { display: flex; flex-direction: column; gap: 14px; width: 280px; }
-.controls h1 { margin: 0; font-size: 28px; }
-.controls p { margin: 0; color: #5c5866; }
-label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
-input[type=text] { font: inherit; padding: 8px; border: 1px solid #c9c4d1; border-radius: 6px; }
-button { font: inherit; font-weight: 700; padding: 10px; border: 0; border-radius: 6px; background: #1d1b22; color: #fff; cursor: pointer; }
-canvas { width: min(70vh, 60vw); height: min(70vh, 60vw); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); }
-body.shot-cover .controls { display: none; }
-body.shot-cover .app { padding: 0; }
-body.shot-cover canvas { width: 100vw; height: 100vh; box-shadow: none; }
+/* Neon Coast Cover Studio — dark neon editor chrome. All colours are original. */
+:root {
+  --ink: #f4eef7;
+  --muted: #b9a8c4;
+  --panel: #1c1026;
+  --panel2: #241531;
+  --line: #3d2a4d;
+  --pink: #ff2e88;
+  --orange: #ff9a3d;
+  --teal: #19e3d6;
+  --violet: #7b2ff7;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background-color: #12081c;
+  background-image: radial-gradient(900px 500px at 85% -10%, rgba(255, 46, 136, .28), transparent 60%),
+    radial-gradient(700px 500px at -10% 30%, rgba(25, 227, 214, .16), transparent 60%);
+  color: var(--ink);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.topbar {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;
+  padding: 16px 22px; border-bottom: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(255, 46, 136, .16), rgba(123, 47, 247, .14) 55%, rgba(25, 227, 214, .12));
+}
+.brand { display: flex; gap: 14px; align-items: center; }
+.brand-mark {
+  display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--orange), var(--pink) 55%, var(--violet));
+  font: 900 20px/1 "Arial Black", sans-serif; color: #fff; letter-spacing: .5px;
+  box-shadow: 0 0 22px rgba(255, 46, 136, .55); transform: rotate(-4deg);
+}
+.brand h1 { margin: 0; font: 900 24px/1.1 "Arial Black", system-ui, sans-serif; letter-spacing: .5px; text-transform: uppercase; }
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.steps { display: flex; gap: 8px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+.steps li { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; font-size: 13px; color: var(--muted); }
+.steps b { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--pink); color: #fff; margin-right: 6px; font-size: 12px; }
+.app { display: flex; gap: 22px; align-items: flex-start; padding: 20px 22px; max-width: 1480px; margin: 0 auto; }
+.controls { width: 348px; flex: none; display: flex; flex-direction: column; gap: 14px; }
+.group { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.group h2 { margin: 0 0 10px; font: 800 13px/1 system-ui, sans-serif; letter-spacing: 1.6px; text-transform: uppercase; color: var(--orange); }
+label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 13px; margin-bottom: 10px; }
+label.check { flex-direction: row; align-items: center; gap: 8px; font-weight: 500; margin-bottom: 6px; }
+input[type=text], select {
+  font: inherit; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: #150b20; color: var(--ink);
+}
+input[type=range] { accent-color: var(--pink); width: 100%; }
+.file-label { cursor: pointer; }
+.file-label input { cursor: pointer; }
+button {
+  font: inherit; font-weight: 700; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--panel2); color: var(--ink); cursor: pointer;
+}
+button:hover { border-color: var(--pink); }
+button.primary { background: linear-gradient(135deg, var(--orange), var(--pink)); border: 0; color: #fff; flex: 1; }
+button.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row button { flex: 1; }
+.btn-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.btn-grid button { font-size: 12px; padding: 8px 6px; }
+.btn-grid button small { display: block; font-weight: 500; color: var(--muted); font-size: 11px; }
+button.active small { color: #ffe3ef; }
+.hint { margin: 2px 0 8px; color: var(--muted); font-size: 12.5px; }
+.thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+.thumbs img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 2px solid var(--line); cursor: pointer; }
+.thumbs img.sel { border-color: var(--teal); }
+.panel-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+.panel-bar button { padding: 6px 10px; font-size: 12px; }
+.sizes { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.sizes label { flex-direction: row; align-items: center; gap: 8px; margin: 0; font-weight: 600; }
+.sizes span { color: var(--muted); font-weight: 500; font-size: 12px; }
+#status { margin: 10px 0 0; color: var(--teal); font-size: 13px; min-height: 1.2em; }
+.stage { flex: 1; min-width: 0; position: sticky; top: 16px; }
+.canvas-wrap { position: relative; display: block; width: min(100%, calc(100vh - 190px)); }
+#cover { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 18px 50px rgba(0, 0, 0, .55), 0 0 0 1px var(--line); cursor: crosshair; background: #2b1838; }
+.size-tag {
+  position: absolute; top: 10px; left: 10px; background: rgba(10, 4, 16, .82); color: #fff;
+  font: 700 12px/1 system-ui, sans-serif; padding: 7px 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .25);
+}
+.stage-hint { color: var(--muted); font-size: 13px; }
+.foot { padding: 6px 22px 22px; color: var(--muted); font-size: 12.5px; text-align: center; }
+/* Screenshot scenes: cover alone fills the frame; editor keeps the full UI. */
+body.shot-cover .topbar, body.shot-cover .controls, body.shot-cover .foot, body.shot-cover .stage-hint { display: none; }
+body.shot-cover .app { padding: 0; max-width: none; }
+body.shot-cover .stage { position: static; }
+body.shot-cover #cover { width: 100vw; height: 100vh; object-fit: contain; border-radius: 0; box-shadow: none; background: #160a20; }
+body.shot-cover .size-tag { display: none; }
+@media (max-width: 900px) {
+  .app { flex-direction: column; }
+  .controls { width: 100%; }
+  .stage { position: static; }
+  #cover { width: 100%; }
+}
